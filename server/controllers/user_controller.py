@@ -1,21 +1,23 @@
 from flask_restful import Resource
 from flask import request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from extensions import db
 from models.user import User
 
 
+# -------------------------
+# Register
+# -------------------------
 class RegisterResource(Resource):
+
     def post(self):
         data = request.get_json()
 
-        # Check if username already exists
         if User.query.filter_by(username=data["username"]).first():
             return {"message": "Username already exists"}, 400
 
-        # Check if email already exists
         if User.query.filter_by(email=data["email"]).first():
             return {"message": "Email already exists"}, 400
 
@@ -32,7 +34,11 @@ class RegisterResource(Resource):
         return {"message": "User registered successfully"}, 201
 
 
+# -------------------------
+# Login
+# -------------------------
 class LoginResource(Resource):
+
     def post(self):
         data = request.get_json()
 
@@ -58,19 +64,34 @@ class LoginResource(Resource):
         }, 200
 
 
+# -------------------------
+# Get All Users
+# -------------------------
 class UserListResource(Resource):
+
+    method_decorators = [jwt_required()]
+
     def get(self):
         users = User.query.all()
 
-        return [{
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "role": user.role
-        } for user in users], 200
+        return [
+            {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": user.role
+            }
+            for user in users
+        ], 200
 
 
+# -------------------------
+# Single User
+# -------------------------
 class UserResource(Resource):
+
+    method_decorators = [jwt_required()]
+
     def get(self, id):
         user = User.query.get_or_404(id)
 
@@ -80,6 +101,23 @@ class UserResource(Resource):
             "email": user.email,
             "role": user.role
         }, 200
+
+    def patch(self, id):
+        user = User.query.get_or_404(id)
+        data = request.get_json()
+
+        if "username" in data:
+            user.username = data["username"]
+
+        if "email" in data:
+            user.email = data["email"]
+
+        if "role" in data:
+            user.role = data["role"]
+
+        db.session.commit()
+
+        return {"message": "User updated successfully"}, 200
 
     def delete(self, id):
         user = User.query.get_or_404(id)

@@ -1,10 +1,12 @@
 from flask_restful import Resource
 from flask import request
+from flask_jwt_extended import jwt_required
 from extensions import db
 from models.enrollment import Enrollment
 
 
 class EnrollmentListResource(Resource):
+    method_decorators = [jwt_required()]
 
     def get(self):
         enrollments = Enrollment.query.all()

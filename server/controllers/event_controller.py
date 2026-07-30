@@ -1,10 +1,12 @@
 from flask_restful import Resource
 from flask import request
+from flask_jwt_extended import jwt_required
 from extensions import db
 from models.event import Event
 
 
 class EventListResource(Resource):
+    method_decorators = [jwt_required()]
 
     def get(self):
         events = Event.query.all()
