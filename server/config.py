@@ -1,0 +1,15 @@
+import os
+
+class Config:
+    SQLALCHEMY_DATABASE_URI = "sqlite:///jupiter.db"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    SECRET_KEY = os.getenv(
+        "SECRET_KEY",
+        "change-this-secret-key"
+    )
+
+    JWT_SECRET_KEY = os.getenv(
+        "JWT_SECRET_KEY",
+        "change-this-jwt-secret-key"
+    )
