@@ -8,16 +8,23 @@ import Courses from "./pages/courses";
 import Events from "./pages/events";
 import Gallery from "./pages/gallery";
 
+import Layout from "./components/Layout";
+
 function App() {
   return (
     <Routes>
+      {/* Login page */}
       <Route path="/" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/teachers" element={<Teachers />} />
-      <Route path="/students" element={<Students />} />
-      <Route path="/courses" element={<Courses />} />
-      <Route path="/events" element={<Events />} />
-      <Route path="/gallery" element={<Gallery />} />
+
+      {/* Pages that share the layout */}
+      <Route element={<Layout />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/teachers" element={<Teachers />} />
+        <Route path="/students" element={<Students />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/gallery" element={<Gallery />} />
+      </Route>
     </Routes>
   );
 }
