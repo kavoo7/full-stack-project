@@ -1,17 +1,24 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "../css/Sidebar.css";
 
 function Sidebar() {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      localStorage.removeItem("token");
+      navigate("/");
+    }
+  };
+
   return (
     <div className="sidebar">
-
       <div className="logo">
         <h2>🎓 Jupiter</h2>
         <p>School Admin</p>
       </div>
 
       <nav>
-
         <NavLink to="/dashboard" className="nav-link">
           🏠 Dashboard
         </NavLink>
@@ -35,13 +42,11 @@ function Sidebar() {
         <NavLink to="/gallery" className="nav-link">
           🖼 Gallery
         </NavLink>
-
       </nav>
 
-      <button className="logout-btn">
+      <button className="logout-btn" onClick={handleLogout}>
         🚪 Logout
       </button>
-
     </div>
   );
 }

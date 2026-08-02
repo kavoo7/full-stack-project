@@ -13,14 +13,18 @@ function Dashboard() {
   const [students, setStudents] = useState([]);
   const [courses, setCourses] = useState([]);
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDashboard() {
+      setLoading(true);
       try {
-        const teachersRes = await getTeachers();
-        const studentsRes = await getStudents();
-        const coursesRes = await getCourses();
-        const eventsRes = await getEvents();
+        const [teachersRes, studentsRes, coursesRes, eventsRes] = await Promise.all([
+          getTeachers(),
+          getStudents(),
+          getCourses(),
+          getEvents(),
+        ]);
 
         setTeachers(teachersRes.data);
         setStudents(studentsRes.data);
@@ -28,6 +32,8 @@ function Dashboard() {
         setEvents(eventsRes.data);
       } catch (error) {
         console.error("Failed to load dashboard data:", error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -36,42 +42,48 @@ function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h1>Dashboard</h1>
-      <p>Welcome back, Admin! 👋</p>
+      <h1>Dashboard Overview</h1>
+      <p className="dashboard-subtitle">Welcome back, Admin! Here is the current school summary. 👋</p>
 
-      <div className="dashboard-cards">
-        <div className="card">
-          <h3>👨‍🏫 Teachers</h3>
-          <h1>{teachers.length}</h1>
-        </div>
+      {loading ? (
+        <p>Loading dashboard metrics...</p>
+      ) : (
+        <>
+          <div className="dashboard-cards">
+            <div className="card">
+              <h3>👨‍🏫 Total Teachers</h3>
+              <p className="stat-number">{teachers.length}</p>
+            </div>
 
-        <div className="card">
-          <h3>👨‍🎓 Students</h3>
-          <h1>{students.length}</h1>
-        </div>
+            <div className="card">
+              <h3>👨‍🎓 Total Students</h3>
+              <p className="stat-number">{students.length}</p>
+            </div>
 
-        <div className="card">
-          <h3>📚 Courses</h3>
-          <h1>{courses.length}</h1>
-        </div>
+            <div className="card">
+              <h3>📚 Total Courses</h3>
+              <p className="stat-number">{courses.length}</p>
+            </div>
 
-        <div className="card">
-          <h3>📅 Events</h3>
-          <h1>{events.length}</h1>
-        </div>
-      </div>
+            <div className="card">
+              <h3>📅 Scheduled Events</h3>
+              <p className="stat-number">{events.length}</p>
+            </div>
+          </div>
 
-      <div className="recent-activity">
-        <h2>Recent Activity</h2>
+          <div className="recent-activity">
+            <h2>System Status & Overview</h2>
 
-        <ul>
-          <li>✔ Dashboard connected successfully</li>
-          <li>✔ Teacher records loaded</li>
-          <li>✔ Student records loaded</li>
-          <li>✔ Course records loaded</li>
-          <li>✔ Event records loaded</li>
-        </ul>
-      </div>
+            <ul>
+              <li>✅ Connected to Jupiter School REST API backend</li>
+              <li>✅ {teachers.length} teacher records active</li>
+              <li>✅ {students.length} student records enrolled</li>
+              <li>✅ {courses.length} courses registered</li>
+              <li>✅ {events.length} upcoming school events listed</li>
+            </ul>
+          </div>
+        </>
+      )}
     </div>
   );
 }

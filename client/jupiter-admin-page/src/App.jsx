@@ -9,6 +9,7 @@ import Events from "./pages/events";
 import Gallery from "./pages/gallery";
 
 import Layout from "./components/Layout";
+import ProtectRoute from "./components/ProtectRoute";
 
 function App() {
   return (
@@ -16,14 +17,16 @@ function App() {
       {/* Login page */}
       <Route path="/" element={<Login />} />
 
-      {/* Pages that share the layout */}
-      <Route element={<Layout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/teachers" element={<Teachers />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/gallery" element={<Gallery />} />
+      {/* Protected Routes */}
+      <Route element={<ProtectRoute />}>
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/teachers" element={<Teachers />} />
+          <Route path="/students" element={<Students />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/events" element={<Events />} />
+          <Route path="/gallery" element={<Gallery />} />
+        </Route>
       </Route>
     </Routes>
   );

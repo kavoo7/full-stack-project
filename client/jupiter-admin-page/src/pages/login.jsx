@@ -1,15 +1,20 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import "../css/login.css";
 
 function Login() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMsg("");
+    setLoading(true);
 
     try {
       const response = await api.post("/login", {
@@ -18,41 +23,53 @@ function Login() {
       });
 
       localStorage.setItem("token", response.data.access_token);
-      console.log("Token:", localStorage.getItem("token"));
-
-      alert("Login successful!");
-
       navigate("/dashboard");
     } catch (error) {
-      alert("Invalid email or password");
+      setErrorMsg(
+        error.response?.data?.message || "Invalid email or password. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <h1>Jupiter School Admin Login</h1>
+    <div className="login-container">
+      <div className="login-card">
+        <div className="login-logo">🎓</div>
+        <h1>Jupiter Admin</h1>
+        <p>Sign in to manage your school database</p>
 
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        {errorMsg && <div className="error-badge">{errorMsg}</div>}
 
-        <br /><br />
+        <form className="login-form" onSubmit={handleLogin}>
+          <div className="input-group">
+            <label>Email Address</label>
+            <input
+              type="email"
+              placeholder="admin@jupiter.ac.ke"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <div className="input-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-        <br /><br />
-
-        <button type="submit">Login</button>
-      </form>
+          <button className="login-btn" type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Sign In"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
