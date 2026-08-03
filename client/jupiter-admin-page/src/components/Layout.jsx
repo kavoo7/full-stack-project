@@ -3,25 +3,19 @@ import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 
 function Layout() {
+  return (
+    <div className="app-shell">
+      <Sidebar />
 
-    return(
+      <div className="main-content">
+        <Navbar />
 
-        <div style={{display:"flex"}}>
-
-            <Sidebar/>
-
-            <div style={{flex:1}}>
-
-                <Navbar/>
-
-                <Outlet/>
-
-            </div>
-
+        <div className="page-content">
+          <Outlet />
         </div>
-
-    );
-
+      </div>
+    </div>
+  );
 }
 
 export default Layout;
