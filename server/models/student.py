@@ -5,6 +5,8 @@ class Student(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    admission_no = db.Column(db.String(50), unique=True)
+    admission_no = db.Column(db.String(50), unique=True, nullable=False)
     class_name = db.Column(db.String(20))
     parent_contact = db.Column(db.String(20))
+
+    enrollments = db.relationship("Enrollment", backref="student", lazy=True, cascade="all, delete-orphan")
