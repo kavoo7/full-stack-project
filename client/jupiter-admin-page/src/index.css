@@ -1,10 +1,86 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f7fb;
+  --panel: #ffffff;
+  --panel-muted: #f8fafc;
+  --text: #0f172a;
+  --muted: #64748b;
+  --primary: #4f46e5;
+  --primary-strong: #3730a3;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --border: #dbe4f0;
+  --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
 }
 
 body {
-  background: #f4f6f9;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.16), transparent 28%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.18), transparent 32%),
+    var(--bg);
+  color: var(--text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.page-content {
+  padding: 26px;
+}
+
+.page-title {
+  margin: 0 0 8px;
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+
+.page-subtitle {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.card-surface {
+  background: var(--panel);
+  border: 1px solid rgba(219, 228, 240, 0.9);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+@media (max-width: 900px) {
+  .app-shell {
+    flex-direction: column;
+  }
+
+  .page-content {
+    padding: 16px;
+  }
 }
