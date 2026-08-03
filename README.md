@@ -96,7 +96,7 @@ project/
 Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/kavoo7/full-stack-project/>
 ```
 
 Navigate into the project
