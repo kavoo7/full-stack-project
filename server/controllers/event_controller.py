@@ -10,7 +10,7 @@ class EventListResource(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        events = Event.query.all()
+        events = Event.query.order_by(Event.id.asc()).all()
         return [{
             "id": e.id,
             "title": e.title,

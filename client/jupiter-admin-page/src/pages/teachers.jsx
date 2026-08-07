@@ -155,9 +155,9 @@ function Teachers() {
                 </td>
               </tr>
             ) : (
-              teachers.map((teacher) => (
+              teachers.map((teacher, index) => (
                 <tr key={teacher.id}>
-                  <td>{teacher.id}</td>
+                  <td>{index + 1}</td>
                   <td><strong>{teacher.name}</strong></td>
                   <td>{teacher.email}</td>
                   <td>{teacher.phone}</td>

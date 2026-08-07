@@ -9,7 +9,7 @@ class GalleryListResource(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        images = Gallery.query.all()
+        images = Gallery.query.order_by(Gallery.id.asc()).all()
         return [{
             "id": g.id,
             "image_url": g.image_url,

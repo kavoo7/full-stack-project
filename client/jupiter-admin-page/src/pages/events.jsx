@@ -150,9 +150,9 @@ function Events() {
                 </td>
               </tr>
             ) : (
-              events.map((event) => (
+              events.map((event, index) => (
                 <tr key={event.id}>
-                  <td>{event.id}</td>
+                  <td>{index + 1}</td>
                   <td><strong>{event.date || "N/A"}</strong></td>
                   <td>{event.title}</td>
                   <td>{event.description}</td>

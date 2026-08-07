@@ -134,7 +134,7 @@ function Gallery() {
           {gallery.length === 0 ? (
             <p>No gallery images found.</p>
           ) : (
-            gallery.map((item) => (
+            gallery.map((item, index) => (
               <div
                 key={item.id}
                 style={{
@@ -162,6 +162,7 @@ function Gallery() {
                   }}
                 />
                 <div style={{ padding: "15px", flex: 1 }}>
+                  <p style={{ fontWeight: 700, margin: "0 0 8px 0", color: "#1f2937" }}>#{index + 1}</p>
                   <p style={{ fontWeight: 600, margin: "0 0 12px 0" }}>{item.caption}</p>
                   <div style={{ display: "flex", gap: "8px" }}>
                     <button className="edit-btn" onClick={() => handleEdit(item)}>

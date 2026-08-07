@@ -147,9 +147,9 @@ function Courses() {
                 </td>
               </tr>
             ) : (
-              courses.map((course) => (
+              courses.map((course, index) => (
                 <tr key={course.id}>
-                  <td>{course.id}</td>
+                  <td>{index + 1}</td>
                   <td><strong>{course.name}</strong></td>
                   <td>{course.teacher_name || "Unassigned"}</td>
                   <td>

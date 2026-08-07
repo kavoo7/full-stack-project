@@ -9,7 +9,7 @@ class TeacherListResource(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        teachers = Teacher.query.all()
+        teachers = Teacher.query.order_by(Teacher.id.asc()).all()
         return [{
             "id": teacher.id,
             "name": teacher.name,

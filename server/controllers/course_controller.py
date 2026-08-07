@@ -9,7 +9,7 @@ class CourseListResource(Resource):
     method_decorators = [jwt_required()]
 
     def get(self):
-        courses = Course.query.all()
+        courses = Course.query.order_by(Course.id.asc()).all()
         return [{
             "id": c.id,
             "name": c.name,

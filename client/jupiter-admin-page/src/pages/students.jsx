@@ -181,9 +181,9 @@ function Students() {
                 </td>
               </tr>
             ) : (
-              students.map((student) => (
+              students.map((student, index) => (
                 <tr key={student.id}>
-                  <td>{student.id}</td>
+                  <td>{index + 1}</td>
                   <td><strong>{student.admission_no}</strong></td>
                   <td>{student.name}</td>
                   <td>{student.class_name}</td>
